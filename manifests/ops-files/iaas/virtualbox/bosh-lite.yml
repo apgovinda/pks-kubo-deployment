@@ -21,5 +21,5 @@
     static_ips: [10.244.0.34]
 
 - type: replace
-  path: /variables/name=tls-kubernetes/options/alternative_names/-
+  path: /variables/name=tls-kubernetes-server/options/alternative_names/-
   value: 10.244.0.34

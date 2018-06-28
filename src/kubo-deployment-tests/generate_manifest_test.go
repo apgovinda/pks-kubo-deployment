@@ -88,23 +88,23 @@ var _ = Describe("Generate manifest", func() {
 			Expect(pathValue).To(Equal("true"))
 		})
 
-		It("should include a variable section with tls-kubelet, tls-kubernetes", func() {
+		It("should include a variable section with tls-kubernetes-server, tls-kubernetes-client", func() {
 			status, err := bash.Run("main", []string{kuboEnv, "cucumber", "director_uuid"})
 			Expect(err).NotTo(HaveOccurred())
 			Expect(status).To(Equal(0))
 
 			Expect(stdout).To(gbytes.Say("variables:"))
-			Expect(stdout).To(gbytes.Say("tls-kubelet"))
-			Expect(stdout).To(gbytes.Say("tls-kubernetes"))
+			Expect(stdout).To(gbytes.Say("tls-kubernetes-client"))
+			Expect(stdout).To(gbytes.Say("tls-kubernetes-server"))
 		})
 
-		It("should include an alternative name with master.cfcr.internal for the tls-kubernetes variable", func() {
+		It("should include an alternative name with master.cfcr.internal for the tls-kubernetes-server variable", func() {
 			status, err := bash.Run("main", []string{kuboEnv, "cucumber", "director_uuid"})
 			Expect(err).NotTo(HaveOccurred())
 			Expect(status).To(Equal(0))
 
 			Expect(stdout).To(gbytes.Say("variables:"))
-			Expect(stdout).To(gbytes.Say("tls-kubernetes"))
+			Expect(stdout).To(gbytes.Say("tls-kubernetes-server"))
 			Expect(stdout).To(gbytes.Say("alternative_names:"))
 			Expect(stdout).To(gbytes.Say("master.cfcr.internal"))
 		})
@@ -335,7 +335,7 @@ var _ = Describe("Generate manifest", func() {
 		}
 	})
 
-	It("should set the tls-kubernetes common_name to the kubernetes_master_host", func() {
+	It("should set the tls-kubernetes-server common_name to the kubernetes_master_host", func() {
 		command := exec.Command("./bin/generate_kubo_manifest", "src/kubo-deployment-tests/resources/environments/test_external", "name", "director_uuid")
 
 		stdoutTemp := gbytes.NewBuffer()
@@ -346,7 +346,7 @@ var _ = Describe("Generate manifest", func() {
 		command.Dir = pathFromRoot("")
 		Expect(command.Run()).To(Succeed())
 
-		command2 := exec.Command("bosh", "int", "-", "--path", "/variables/name=tls-kubernetes/options/common_name")
+		command2 := exec.Command("bosh", "int", "-", "--path", "/variables/name=tls-kubernetes-server/options/common_name")
 		command2.Stdin = stdoutTemp
 		command2.Stdout = bash.Stdout
 		command2.Stderr = bash.Stderr
@@ -355,7 +355,7 @@ var _ = Describe("Generate manifest", func() {
 		Expect(stdout).To(gbytes.Say("12.23.34.45"))
 	})
 
-	It("should add the kubernetes_master_host to tls-kubernetes alternative_names", func() {
+	It("should add the kubernetes_master_host to tls-kubernetes-server alternative_names", func() {
 		command := exec.Command("./bin/generate_kubo_manifest", "src/kubo-deployment-tests/resources/environments/test_external", "name", "director_uuid")
 
 		stdoutTemp := gbytes.NewBuffer()
@@ -366,7 +366,7 @@ var _ = Describe("Generate manifest", func() {
 		command.Dir = pathFromRoot("")
 		Expect(command.Run()).To(Succeed())
 
-		command2 := exec.Command("bosh", "int", "-", "--path", "/variables/name=tls-kubernetes/options/alternative_names")
+		command2 := exec.Command("bosh", "int", "-", "--path", "/variables/name=tls-kubernetes-server/options/alternative_names")
 		command2.Stdin = stdoutTemp
 		command2.Stdout = bash.Stdout
 		command2.Stderr = bash.Stderr

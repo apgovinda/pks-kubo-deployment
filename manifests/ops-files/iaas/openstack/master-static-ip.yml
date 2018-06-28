@@ -9,8 +9,8 @@
   value: [dns, gateway]
 
 - type: replace
-  path: /variables/name=tls-kubernetes/options/common_name
+  path: /variables/name=tls-kubernetes-server/options/common_name
   value: ((kubernetes_master_host))
 - type: replace
-  path: /variables/name=tls-kubernetes/options/alternative_names/-
+  path: /variables/name=tls-kubernetes-server/options/alternative_names/-
   value: ((kubernetes_master_host))
