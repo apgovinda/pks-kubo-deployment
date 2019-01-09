@@ -68,7 +68,7 @@ instance_groups:
         proxy-client-cert-file: /var/vcap/jobs/kube-apiserver/config/kubernetes.pem
         proxy-client-key-file: /var/vcap/jobs/kube-apiserver/config/kubernetes-key.pem
         requestheader-allowed-names: aggregator
-        requestheader-client-ca-file: /var/vcap/jobs/kube-apiserver/config/kubernetes.pem
+        requestheader-client-ca-file: /var/vcap/jobs/kube-apiserver/config/kubernetes-ca.pem
         requestheader-extra-headers-prefix: X-Remote-Extra-
         requestheader-group-headers: X-Remote-Group
         requestheader-username-headers: X-Remote-User
@@ -139,15 +139,15 @@ instance_groups:
         dns_suffix: etcd.cfcr.internal
       tls:
         etcd:
-          ca: ((tls-etcd-v0-17-0.ca))
+          ca: ((tls-etcd-v0-17-0.ca))((etcd_ca.certificate))
           certificate: ((tls-etcd-v0-17-0.certificate))
           private_key: ((tls-etcd-v0-17-0.private_key))
         etcdctl:
-          ca: ((tls-etcdctl.ca))
+          ca: ((tls-etcdctl.ca))((etcd_ca.certificate))
           certificate: ((tls-etcdctl.certificate))
           private_key: ((tls-etcdctl.private_key))
         peer:
-          ca: ((tls-etcd-v0-17-0.ca))
+          ca: ((tls-etcd-v0-17-0.ca))((etcd_ca.certificate))
           certificate: ((tls-etcd-v0-17-0.certificate))
           private_key: ((tls-etcd-v0-17-0.private_key))
     release: cfcr-etcd
