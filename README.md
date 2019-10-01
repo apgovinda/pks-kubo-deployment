@@ -1,6 +1,8 @@
-# kubo-deployment
+# pks-kubo-deployment
 
 This repository should be named "kubo-manifest". It contains the documentation and manifests for deploying [kubo-release](https://github.com/cloudfoundry-incubator/kubo-release) with BOSH. 
+
+The repo is consumed by the [Kubo service adapter](https://github.com/pivotal-cf/kubo-service-adapter-release)
 
 **Slack**: #cfcr on https://slack.cloudfoundry.org
 **Pivotal Tracker**: https://www.pivotaltracker.com/n/projects/2093412
