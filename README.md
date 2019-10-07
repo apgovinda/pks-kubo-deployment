@@ -5,7 +5,6 @@ This repository should be named "kubo-manifest". It contains the documentation a
 The repo is consumed by the [Kubo service adapter](https://github.com/pivotal-cf/kubo-service-adapter-release)
 
 **Slack**: #cfcr on https://slack.cloudfoundry.org
-**Pivotal Tracker**: https://www.pivotaltracker.com/n/projects/2093412
 
 ## Documentation
 To deploy CFCR go [here](https://github.com/cloudfoundry-incubator/kubo-release/#deploying-cfcr).
