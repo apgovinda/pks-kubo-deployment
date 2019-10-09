@@ -1,17 +1,10 @@
-- path: /releases/name=kubo
+- path: /releases/name=kubo-windows?
   type: replace
   value:
-    name: kubo
-    sha1: f4d3230a20133684a5579823bb7d8abf8ae83aa1
-    url: https://github.com/cloudfoundry-incubator/kubo-release/releases/download/v0.36.0/kubo-release-0.36.0.tgz
-    version: 0.36.0
-- path: /releases/name=docker
-  type: replace
-  value:
-    name: docker
-    sha1: ee15b3dbb6f0e0d19f287e2cae22714f069f67f3
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/docker-boshrelease?v=35.3.3
-    version: 35.3.3
+    name: kubo-windows
+    sha1: 6eab00861ebe8396bf02529c670dca12d62e42a4
+    url: https://github.com/cloudfoundry-incubator/kubo-release-windows/releases/download/v0.38.0/kubo-release-windows-0.38.0.tgz
+    version: 0.38.0
 - path: /stemcells/-
   type: replace
   value:
@@ -39,7 +32,7 @@
           keep-terminated-pod-volumes: false
           kubeconfig: C:\var\vcap\jobs\kubelet-windows\config\kubeconfig
           network-plugin: cni
-          pod-infra-container-image: kubeletwin/pause
+          pod-infra-container-image: mcr.microsoft.com/k8s/core/pause:1.2.0
           register-with-taints: windows=2019:NoSchedule
           resolv-conf: ""
           runtime-request-timeout: 1m
@@ -68,7 +61,7 @@
           kubelet-client-ca:
             certificate: ((tls-kubelet-client.ca))
           kubernetes: ((tls-kubernetes))
-      release: kubo
+      release: kubo-windows
     - name: flanneld-windows
       properties:
         tls:
@@ -76,7 +69,7 @@
             ca: ((tls-etcdctl-flanneld.ca))
             certificate: ((tls-etcdctl-flanneld.certificate))
             private_key: ((tls-etcdctl-flanneld.private_key))
-      release: kubo
+      release: kubo-windows
     - name: kube-proxy-windows
       properties:
         api-token: ((kube-proxy-password))
@@ -90,9 +83,9 @@
           portRange: ""
         tls:
           kubernetes: ((tls-kubernetes))
-      release: kubo
+      release: kubo-windows
     - name: docker-windows
-      release: docker
+      release: kubo-windows
     name: windows-worker
     networks:
     - name: default
@@ -105,6 +98,6 @@
       stemcell:
       - os: windows2019
     jobs:
-    - name: kubo-dns-aliases-windows
+    - name: kubo-dns-aliases
       release: kubo
     name: bosh-dns-aliases-windows
