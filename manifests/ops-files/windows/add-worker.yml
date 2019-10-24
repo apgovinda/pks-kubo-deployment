@@ -1,17 +1,11 @@
-- path: /releases/name=kubo
+- path: /releases/name=kubo-windows?
+  label: kubo-windows
   type: replace
   value:
-    name: kubo
-    sha1: f4d3230a20133684a5579823bb7d8abf8ae83aa1
-    url: https://github.com/cloudfoundry-incubator/kubo-release/releases/download/v0.36.0/kubo-release-0.36.0.tgz
-    version: 0.36.0
-- path: /releases/name=docker
-  type: replace
-  value:
-    name: docker
-    sha1: ee15b3dbb6f0e0d19f287e2cae22714f069f67f3
-    url: https://bosh.io/d/github.com/cloudfoundry-incubator/docker-boshrelease?v=35.3.3
-    version: 35.3.3
+    name: kubo-windows
+    sha1: 214f1f947deb132fbc61a050ebdfcdb8ebe29efc
+    url: https://github.com/cloudfoundry-incubator/kubo-release-windows/releases/download/v0.40.0/kubo-release-windows-0.40.0.tgz
+    version: 0.40.0
 - path: /stemcells/-
   type: replace
   value:
@@ -32,17 +26,14 @@
         api-token: ((kubelet-password))
         drain-api-token: ((kubelet-drain-password))
         k8s-args:
-          allow-privileged: true
           cni-bin-dir: C:\var\vcap\jobs\kubelet-windows\packages\cni-windows\bin
           container-runtime: docker
           image-pull-progress-deadline: 20m
-          keep-terminated-pod-volumes: false
           kubeconfig: C:\var\vcap\jobs\kubelet-windows\config\kubeconfig
           network-plugin: cni
-          pod-infra-container-image: kubeletwin/pause
+          pod-infra-container-image: mcr.microsoft.com/k8s/core/pause:1.2.0
           register-with-taints: windows=2019:NoSchedule
           resolv-conf: ""
-          runtime-request-timeout: 1m
         kubelet-configuration:
           apiVersion: kubelet.config.k8s.io/v1beta1
           authentication:
@@ -68,15 +59,18 @@
           kubelet-client-ca:
             certificate: ((tls-kubelet-client.ca))
           kubernetes: ((tls-kubernetes))
-      release: kubo
-    - name: flanneld-windows
+      release: kubo-windows
+    - consumes:
+        flanneld:
+          from: worker-flanneld
+      name: flanneld-windows
       properties:
         tls:
           etcdctl:
             ca: ((tls-etcdctl-flanneld.ca))
             certificate: ((tls-etcdctl-flanneld.certificate))
             private_key: ((tls-etcdctl-flanneld.private_key))
-      release: kubo
+      release: kubo-windows
     - name: kube-proxy-windows
       properties:
         api-token: ((kube-proxy-password))
@@ -90,9 +84,9 @@
           portRange: ""
         tls:
           kubernetes: ((tls-kubernetes))
-      release: kubo
+      release: kubo-windows
     - name: docker-windows
-      release: docker
+      release: kubo-windows
     name: windows-worker
     networks:
     - name: default
@@ -105,6 +99,6 @@
       stemcell:
       - os: windows2019
     jobs:
-    - name: kubo-dns-aliases-windows
+    - name: kubo-dns-aliases
       release: kubo
     name: bosh-dns-aliases-windows
