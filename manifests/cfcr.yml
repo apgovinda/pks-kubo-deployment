@@ -27,6 +27,8 @@ instance_groups:
         kubernetes-dashboard: ((tls-kubernetes-dashboard))
         metrics-server: ((tls-metrics-server))
     release: kubo
+  - name: print-component-version
+    release: kubo
   lifecycle: errand
   name: apply-addons
   networks:
